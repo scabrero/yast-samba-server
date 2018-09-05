@@ -125,12 +125,9 @@ module Yast
     #
     # @return [Boolean] true if service is saved successfully; false otherwise
     def save_status(switch_to_reload)
-      if Mode.auto || Mode.commandline
-        SambaServer.Write(false)
-      else
-        services.reload if services.action == :restart && switch_to_reload
-        services.save
-      end
+      return false if !SambaServer.Write(false)
+      services.reload if services.action == :restart && switch_to_reload
+      services.save
     end
   end
 end
